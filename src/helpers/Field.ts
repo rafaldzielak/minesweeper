@@ -9,3 +9,26 @@ export const CellState: Record<string, Cell> = {
   mark: 11,
   weakMark: 12,
 };
+
+export const emptyFieldGenerator = (size: number, state: Cell = CellState.empty): Field =>
+  new Array(size).fill(null).map(() => new Array(size).fill(state));
+
+export const fieldGenerator = (size: number, probability: number): Field => {
+  if (probability > 1 || probability < 0) throw "Probability must be between 0 and 1";
+  let unprocessedCells = size * size;
+  let restCellsWithBombs = unprocessedCells * probability;
+  const result: Field = emptyFieldGenerator(size);
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (restCellsWithBombs === 0) return result;
+      if (restCellsWithBombs / unprocessedCells > 0) {
+        result[i][j] = CellState.bomb;
+        restCellsWithBombs--;
+      }
+      unprocessedCells--;
+    }
+  }
+
+  return result;
+};
