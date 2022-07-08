@@ -42,5 +42,17 @@ describe("Field Generator", () => {
         [bomb, bomb],
       ]);
     });
+
+    it("2x2 with mine", () => {
+      const field = fieldGenerator(2, 0.5);
+      const flatField = field.flat();
+
+      const cellsWithBombs = flatField.filter((cell) => cell === bomb);
+      const emptyCells = flatField.filter((cell) => cell === 2);
+      expect(cellsWithBombs).toHaveLength(2);
+      expect(emptyCells).toHaveLength(2);
+      console.table(field);
+      console.table(flatField);
+    });
   });
 });
