@@ -54,5 +54,16 @@ describe("Field Generator", () => {
       console.table(field);
       console.table(flatField);
     });
+    it("Real game field size = 10x10 with 1/4 mined cells (25 mines)", () => {
+      const size = 10;
+      const mines = 25;
+
+      const probability = mines / (size * size);
+      const field = fieldGenerator(size, probability);
+
+      console.table(field);
+
+      expect([...field[0], ...field[1]].join("")).not.toBe("99999999999999999999");
+    });
   });
 });
