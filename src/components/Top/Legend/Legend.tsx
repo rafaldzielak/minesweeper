@@ -1,12 +1,18 @@
 import styled from "@emotion/styled";
 import React, { FC } from "react";
 
-export const Legend: FC = () => {
+export type LegendProps = {
+  feature: string;
+  firstAction: string;
+  secondAction: string;
+};
+
+export const Legend: FC<LegendProps> = ({ feature, firstAction, secondAction }) => {
   return (
     <Parent>
-      <strong>flag: </strong>
+      <strong>{feature}: </strong>
       <FlagComboParent>
-        <Key>ctrl</Key> + <Click>click</Click>
+        <FirstAction>{firstAction}</FirstAction> + <SecondAction>{secondAction}</SecondAction>
       </FlagComboParent>
     </Parent>
   );
@@ -16,11 +22,11 @@ const FlagComboParent = styled.code`
   background: #e3e3e3;
 `;
 
-const Key = styled.span`
+const FirstAction = styled.span`
   color: #ec433c;
 `;
 
-const Click = styled.span`
+const SecondAction = styled.span`
   color: #2a48ec;
 `;
 
