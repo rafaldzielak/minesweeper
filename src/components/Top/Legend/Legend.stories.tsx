@@ -3,7 +3,7 @@ import React from "react";
 import { Legend } from "./Legend";
 
 export default {
-  title: "Legend",
+  title: "Top/Legend",
   component: Legend,
 } as Meta;
 
