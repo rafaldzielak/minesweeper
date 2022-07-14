@@ -7,7 +7,7 @@ import { Top, TopComponentTypeProps } from "./Top";
 export default {
   title: "Top/Top",
   component: Legend,
-  args: { feature: "Flag", firstAction: "ctrl", secondAction: "click", children: "minesweeper" },
+  args: { feature: "Flag", firstAction: "Ctrl", secondAction: "Click", children: "Minesweeper" },
 } as Meta;
 
 const Template: Story<TopComponentTypeProps> = (args) => <Top {...args} />;

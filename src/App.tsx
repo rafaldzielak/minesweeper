@@ -1,14 +1,12 @@
-import { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { Legend } from "./components/Top/Legend/Legend";
+import { Top } from "./components/Top/Top";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className='App'>
-      <Legend></Legend>
+      <Top feature='Flag' firstAction='ctrl' secondAction='click'>
+        Minesweeper
+      </Top>
     </div>
   );
 }
