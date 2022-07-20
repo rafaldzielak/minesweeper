@@ -14,7 +14,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./" /* Base directory to resolve non-absolute module names. */,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src", "examples/mathFunctions.test.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
