@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React, { FC } from "react";
 
 import { Cell as CellType, CellState, Coords } from "@/helpers/Field";
+import { useMouseDown } from "@/hooks/useMouseDown";
 
 export type CellProps = {
   children: CellType;
@@ -14,6 +15,7 @@ export const checkCellIsActive = (cell: CellType): boolean =>
   [CellState.hidden, CellState.flag, CellState.weakFlag].includes(cell);
 
 export const Cell: FC<CellProps> = ({ children, coords, ...rest }) => {
+  const [mouseDown, setMouseDown, setMouseUp] = useMouseDown();
   const isActiveCell = checkCellIsActive(children);
 
   const onClick = () => {
@@ -25,7 +27,23 @@ export const Cell: FC<CellProps> = ({ children, coords, ...rest }) => {
     if (isActiveCell) rest.onContextMenu(coords);
   };
 
-  const props = { onClick, onContextMenu, "data-testid": `${children}_${coords}` };
+  const onMouseDown = () => {
+    if (isActiveCell) setMouseDown();
+  };
+
+  const onMouseUp = () => {
+    if (isActiveCell) setMouseUp();
+  };
+
+  const props = {
+    onClick,
+    onContextMenu,
+    "data-testid": `${children}_${coords}`,
+    onMouseDown,
+    onMouseUp,
+    mouseDown,
+    onMouseLeave: onMouseUp,
+  };
 
   return <ComponentsMap {...props}>{children}</ComponentsMap>;
 };
@@ -35,6 +53,10 @@ type ComponentsMapProps = {
   onClick: () => void;
   onContextMenu: (elem: React.MouseEvent<HTMLElement>) => void;
   "data-testid"?: string;
+  onMouseDown: () => void;
+  onMouseUp: () => void;
+  onMouseLeave: () => void;
+  mouseDown: boolean;
 };
 
 const ComponentsMap: FC<ComponentsMapProps> = ({ children, ...rest }) => {
@@ -84,7 +106,11 @@ const colors: { [key in CellType]: string } = {
   12: transparent,
 };
 
-export const ClosedFrame = styled.div`
+type ClosedFrameProps = {
+  mouseDown: boolean;
+};
+
+export const ClosedFrame = styled.div<ClosedFrameProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +121,7 @@ export const ClosedFrame = styled.div`
   color: transparent;
   background-color: #d1d1d1;
   border: 0.6vh solid transparent;
-  border-color: "white #9e9e9e #9e9e9e white";
+  border-color: ${({ mouseDown = false }) => (mouseDown ? "transparent" : "white #9e9e9e #9e9e9e white")};
   &:hover {
     filter: brightness(1.1);
   }
