@@ -1,5 +1,8 @@
+const { loadConfigFromFile } = require("vite");
+
 const { mergeConfig } = require("vite");
 const { fileURLToPath } = require("url");
+const path = require("path");
 
 module.exports = {
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
@@ -13,12 +16,12 @@ module.exports = {
   },
   async viteFinal(config, options) {
     // Add your configuration here
+    const { config: userConfig } = await loadConfigFromFile(path.resolve(__dirname, "../vite.config.ts"));
+
     return mergeConfig(config, {
-      resolve: {
-        alias: {
-          "@": "../src",
-        },
-      },
+      ...userConfig,
+      // manually specify plugins to avoid conflict
+      plugins: [],
     });
     return config;
   },

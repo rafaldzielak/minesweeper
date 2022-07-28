@@ -25,5 +25,7 @@ dist-ssr
 *.sln
 *.sw?
 
+storybook-static/
+
 # stryker temp files
 .stryker-tmp
