@@ -11,7 +11,7 @@
     "coverage": "vitest --coverage",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=3c223d58e96d",
+    "chromatic": "npx chromatic",
     "prepare": "husky install"
   },
   "dependencies": {
