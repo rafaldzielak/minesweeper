@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC } from "react";
 import styled from "@emotion/styled";
 
 import { Counter } from "./Counter";
@@ -21,15 +21,18 @@ export interface ScoreboardProps {
   /**
    * Bombs in the field
    */
-  mines: string;
+  bombs: string;
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const Scoreboard: FC<ScoreboardProps> = ({ time, levels, mines, onReset }) => (
+export const Scoreboard: FC<ScoreboardProps> = ({ time, levels, bombs, onReset, onChange }) => (
   <Wrapper>
     <Counter>{time}</Counter>
-    <Level>{levels}</Level>
-    <Reset onReset={onReset} />
-    <Counter>{mines}</Counter>
+    <div>
+      <Level onChange={onChange}>{levels}</Level>
+      <Reset onReset={onReset} />
+    </div>
+    <Counter>{bombs}</Counter>
   </Wrapper>
 );
 
