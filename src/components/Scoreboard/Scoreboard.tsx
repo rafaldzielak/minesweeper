@@ -22,14 +22,24 @@ export interface ScoreboardProps {
    * Bombs in the field
    */
   bombs: string;
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onChangeLevel: (event: ChangeEvent<HTMLSelectElement>) => void;
+  defaultLevel?: string;
 }
 
-export const Scoreboard: FC<ScoreboardProps> = ({ time, levels, bombs, onReset, onChange }) => (
+export const Scoreboard: FC<ScoreboardProps> = ({
+  time,
+  levels,
+  defaultLevel,
+  bombs,
+  onReset,
+  onChangeLevel: onChange,
+}) => (
   <Wrapper>
     <Counter>{time}</Counter>
     <div>
-      <Level onChange={onChange}>{levels}</Level>
+      <Level onChange={onChange} value={defaultLevel}>
+        {levels}
+      </Level>
       <Reset onReset={onReset} />
     </div>
     <Counter>{bombs}</Counter>

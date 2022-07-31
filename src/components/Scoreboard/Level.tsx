@@ -7,10 +7,11 @@ export interface LevelProps {
    */
   children: string[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
 }
 
-export const Level: FC<LevelProps> = ({ children, onChange }) => (
-  <Select onChange={onChange}>
+export const Level: FC<LevelProps> = ({ children, value, onChange }) => (
+  <Select onChange={onChange} value={value}>
     {children.map((item: string) => (
       <Option key={item} value={item}>
         {item}
