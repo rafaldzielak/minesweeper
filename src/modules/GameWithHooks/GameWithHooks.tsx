@@ -16,7 +16,6 @@ export const GameWithHooks: FC = () => {
   const [size, bombs] = GameSettings[level];
 
   const [playerField, setPlayerField] = useState<Field>(emptyFieldGenerator(size, CellState.hidden));
-
   const [gameField, setGameField] = useState<Field>(fieldGenerator(size, bombs / (size * size)));
 
   const onClick = (coords: Coords) => {

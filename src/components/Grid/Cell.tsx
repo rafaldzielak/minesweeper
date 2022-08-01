@@ -31,6 +31,7 @@ export const Cell: FC<CellProps> = ({ children, coords, ...rest }) => {
     onMouseUp,
     mouseDown,
     onMouseLeave: onMouseUp,
+    role: "cell",
   };
 
   return <ComponentsMap {...props}>{children}</ComponentsMap>;
@@ -45,6 +46,7 @@ type ComponentsMapProps = {
   onMouseUp: () => void;
   onMouseLeave: () => void;
   mouseDown: boolean;
+  role: string;
 };
 
 const ComponentsMap: FC<ComponentsMapProps> = ({ children, ...rest }) => {
