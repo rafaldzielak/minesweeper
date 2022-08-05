@@ -9,6 +9,8 @@ import { describe, expect, it, vi } from "vitest";
 
 const { empty: e, hidden: h, bomb: b, flag: f } = CellState;
 
+vi.mock("@/helpers/Field");
+
 describe("GameWithHooks test cases", () => {
   describe("Render behaviour", () => {
     it("Render game field by default", () => {
@@ -24,6 +26,14 @@ describe("GameWithHooks test cases", () => {
       await waitFor(() => expect(screen.getAllByRole("cell")).toHaveLength(256));
       userEvent.selectOptions(screen.getByRole("combobox"), "expert");
       await waitFor(() => expect(screen.getAllByRole("cell")).toHaveLength(484));
+    });
+  });
+
+  describe("Open cell test cases", () => {
+    it("Open empty cell on the beginner level", async () => {
+      render(<GameWithHooks />);
+      await userEvent.click(screen.getByTestId("10_0,0"));
+      await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(18));
     });
   });
 });
