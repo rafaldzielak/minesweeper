@@ -35,5 +35,38 @@ describe("GameWithHooks test cases", () => {
       await userEvent.click(screen.getByTestId("10_0,0"));
       await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(18));
     });
+
+    it("Check click to the cell when the level is changed", async () => {
+      render(<GameWithHooks />);
+      expect(screen.getAllByRole("cell")).toHaveLength(81);
+
+      userEvent.selectOptions(screen.getByRole("combobox"), "intermediate");
+      await waitFor(() => expect(screen.getAllByRole("cell")).toHaveLength(256));
+
+      userEvent.click(screen.getByTestId("10_15,15"));
+      await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(2));
+
+      userEvent.selectOptions(screen.getByRole("combobox"), "expert");
+      await waitFor(() => expect(screen.getAllByRole("cell")).toHaveLength(484));
+
+      userEvent.click(screen.getByTestId("10_21,21"));
+      await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(1));
+      await waitFor(() => expect(screen.getAllByTestId(/^1_/)).toHaveLength(2));
+      await waitFor(() => expect(screen.getAllByTestId(/^2_/)).toHaveLength(1));
+    });
+
+    it.only("onReset game handler", async () => {
+      render(<GameWithHooks />);
+      await waitFor(() => expect(screen.getAllByTestId(/^10_/)).toHaveLength(81));
+
+      userEvent.click(screen.getByTestId("10_0,8"));
+      await waitFor(() => expect(screen.getAllByTestId(/^1_/)).toHaveLength(1));
+
+      userEvent.click(screen.getByTestId("10_0,0"));
+      await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(18));
+
+      userEvent.click(screen.getByRole("button"));
+      await waitFor(() => expect(screen.getAllByTestId(/^10_/)).toHaveLength(81));
+    });
   });
 });

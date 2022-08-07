@@ -27,8 +27,8 @@ export const GameWithHooks: FC = () => {
     const newGameField = fieldGenerator(size, bombs / (size * size));
     const newPlayerField = emptyFieldGenerator(size, CellState.hidden);
 
-    setGameField([...newGameField]);
-    setPlayerField([...newPlayerField]);
+    setGameField(newGameField);
+    setPlayerField(newPlayerField);
   };
 
   const onChangeLevel = ({ target: { value: level } }: React.ChangeEvent<HTMLSelectElement>) => {
