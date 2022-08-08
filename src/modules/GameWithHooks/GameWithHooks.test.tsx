@@ -55,7 +55,7 @@ describe("GameWithHooks test cases", () => {
       await waitFor(() => expect(screen.getAllByTestId(/^2_/)).toHaveLength(1));
     });
 
-    it.only("onReset game handler", async () => {
+    it("onReset game handler", async () => {
       render(<GameWithHooks />);
       await waitFor(() => expect(screen.getAllByTestId(/^10_/)).toHaveLength(81));
 
@@ -67,6 +67,30 @@ describe("GameWithHooks test cases", () => {
 
       userEvent.click(screen.getByRole("button"));
       await waitFor(() => expect(screen.getAllByTestId(/^10_/)).toHaveLength(81));
+    });
+  });
+
+  describe("Game over behavior", () => {
+    it("Player loose the game", async () => {
+      render(<GameWithHooks />);
+
+      userEvent.click(screen.getByTestId("10_0,8"));
+      await waitFor(() => expect(screen.getAllByTestId(/^1_/)).toHaveLength(1));
+
+      userEvent.click(screen.getByTestId("10_0,0"));
+      await waitFor(() => expect(screen.getAllByTestId(/^0_/)).toHaveLength(18));
+
+      userEvent.click(screen.getByTestId("10_0,7"));
+      await waitFor(() => expect(screen.getByText("🙁")).toBeTruthy());
+
+      expect(screen.getAllByTestId(/^0_/)).toHaveLength(27);
+      expect(screen.getAllByTestId(/^1_/)).toHaveLength(30);
+      expect(screen.getAllByTestId(/^2_/)).toHaveLength(12);
+      expect(screen.getAllByTestId(/^3_/)).toHaveLength(2);
+
+      userEvent.click(screen.getByText("🙁"));
+      await waitFor(() => expect(screen.getAllByTestId(/^10_/)).toHaveLength(81));
+      await waitFor(() => expect(screen.queryByText("🙁")).toBeFalsy());
     });
   });
 });

@@ -12,6 +12,8 @@ import { GameArea, Wrapper, GameOver } from "@/components/Game";
 
 export const GameWithHooks: FC = () => {
   const [level, setLevel] = useState<LevelNames>("beginner");
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [isWin, setIsWin] = useState(false);
 
   const [size, bombs] = GameSettings[level];
 
@@ -19,8 +21,14 @@ export const GameWithHooks: FC = () => {
   const [gameField, setGameField] = useState<Field>(fieldGenerator(size, bombs / (size * size)));
 
   const onClick = (coords: Coords) => {
-    const newPlayerField = openCell(coords, playerField, gameField);
-    setPlayerField([...newPlayerField]);
+    try {
+      const newPlayerField = openCell(coords, playerField, gameField);
+      setPlayerField([...newPlayerField]);
+    } catch (error) {
+      setPlayerField([...gameField]);
+      setIsGameOver(true);
+      setIsWin(false);
+    }
   };
 
   const resetHandler = ([size, bombs]: [number, number]) => {
@@ -29,6 +37,8 @@ export const GameWithHooks: FC = () => {
 
     setGameField(newGameField);
     setPlayerField(newPlayerField);
+    setIsGameOver(false);
+    setIsWin(false);
   };
 
   const onChangeLevel = ({ target: { value: level } }: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,7 +63,7 @@ export const GameWithHooks: FC = () => {
           onChangeLevel={onChangeLevel}
           onReset={onReset}
         />
-        <GameOver onClick={() => null} isWin={true} />
+        {isGameOver && <GameOver onClick={onReset} isWin={isWin} />}
         <Grid onClick={onClick} onContextMenu={() => null}>
           {playerField}
         </Grid>
