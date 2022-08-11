@@ -1,5 +1,5 @@
 import { CellState, Field } from "@/helpers/Field";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { GameLevels, GameSettings } from "../GameSettings";
 import useGame from "./useGame";
@@ -15,7 +15,7 @@ describe("useGame test cases", () => {
   describe("Render behaviour", () => {
     it("Render hook by default", () => {
       const { result } = renderHook(useGame);
-      const { level, isGameOver, isWin, settings, playerField } = result.current;
+      const { level, isGameOver, isWin, settings, playerField, gameField } = result.current;
 
       expect({ level, isGameOver, isWin, settings }).toStrictEqual({
         level: beginner,
@@ -24,6 +24,7 @@ describe("useGame test cases", () => {
         settings: GameSettings.beginner,
       });
       expect(playerField).toHaveLength(9);
+      expect(flatWithFilter(gameField, b)).toHaveLength(10);
     });
 
     it("onChange game level handler", () => {
@@ -86,7 +87,7 @@ describe("useGame test cases", () => {
       expect(flatWithFilter(expertPlayerField, 2)).toHaveLength(1);
     });
 
-    it("onReset game handler", () => {
+    it("onReset game handler", async () => {
       const { result } = renderHook(useGame);
       const { playerField, onClick, onReset } = result.current;
 
@@ -100,8 +101,13 @@ describe("useGame test cases", () => {
       expect(flatWithFilter(newPlayerField, e)).toHaveLength(18);
 
       act(onReset);
-      const { playerField: finalPlayerField } = result.current;
+
+      const { playerField: finalPlayerField, isWin, isGameOver, gameField } = result.current;
+
+      expect(isWin).toBe(false);
+      expect(isGameOver).toBe(false);
       expect(flatWithFilter(finalPlayerField, h)).toHaveLength(81);
+      expect(flatWithFilter(gameField, b)).toHaveLength(10);
     });
   });
   describe("Game over behavior", () => {

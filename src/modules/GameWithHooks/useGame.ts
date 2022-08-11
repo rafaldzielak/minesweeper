@@ -11,6 +11,7 @@ type ReturnType = {
   isWin: boolean;
   settings: [number, number];
   playerField: Field;
+  gameField: Field;
   onClick: (coords: Coords) => void;
   onChangeLevel: (level: LevelNames) => void;
   onReset: () => void;
@@ -61,6 +62,7 @@ const useGame = (): ReturnType => {
     isWin,
     settings: [size, bombs],
     playerField,
+    gameField,
     onClick,
     onChangeLevel,
     onReset,
