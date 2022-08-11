@@ -3,7 +3,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 
 import { GameWithHooks } from "./GameWithHooks";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import useGame from "./useGame";
 
 const mockOnClick = vi.fn();
 const mockOnChangeLevel = vi.fn();
