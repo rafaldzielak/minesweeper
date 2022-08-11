@@ -1,5 +1,5 @@
 import userEvent from "@testing-library/user-event";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { GameWithHooks } from "./GameWithHooks";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mockOnClick = vi.fn();
 const mockOnChangeLevel = vi.fn();
 const mockOnReset = vi.fn();
+const mockOnContextMenu = vi.fn();
 
 vi.mock("./useGame", () => {
   const useGame = () => ({
@@ -21,6 +22,7 @@ vi.mock("./useGame", () => {
     onClick: mockOnClick,
     onChangeLevel: mockOnChangeLevel,
     onReset: mockOnReset,
+    onContextMenu: mockOnContextMenu,
   });
   return {
     default: useGame,
@@ -59,5 +61,11 @@ describe("GameWithHooks test cases", () => {
     render(<GameWithHooks />);
     userEvent.click(screen.getByText("🙁"));
     await waitFor(() => expect(mockOnReset).toHaveBeenCalled());
+  });
+
+  it("Context menu handler on a cell works fine", () => {
+    render(<GameWithHooks />);
+    fireEvent.contextMenu(screen.getByTestId("10_0,0"), { button: 2 });
+    expect(mockOnContextMenu).toHaveBeenCalled();
   });
 });

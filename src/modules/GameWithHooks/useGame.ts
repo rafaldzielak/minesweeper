@@ -1,9 +1,10 @@
 import { useState } from "react";
 
 import { Field, CellState, emptyFieldGenerator, fieldGenerator, Coords } from "@/helpers/Field";
-import { openCell } from "@/helpers/CellsManipulator";
+import { openCell } from "@/helpers/openCell";
 
 import { LevelNames, GameSettings } from "@/modules/GameSettings";
+import { setFlag } from "@/helpers/setFlag";
 
 type ReturnType = {
   level: LevelNames;
@@ -13,6 +14,7 @@ type ReturnType = {
   playerField: Field;
   gameField: Field;
   onClick: (coords: Coords) => void;
+  onContextMenu: (coords: Coords) => void;
   onChangeLevel: (level: LevelNames) => void;
   onReset: () => void;
 };
@@ -36,6 +38,12 @@ const useGame = (): ReturnType => {
       setIsGameOver(true);
       setIsWin(false);
     }
+  };
+
+  const onContextMenu = (coords: Coords) => {
+    console.log("CONTEXT MMENU");
+    const newPlayerField = setFlag(coords, playerField, gameField);
+    setPlayerField([...newPlayerField]);
   };
 
   const resetHandler = ([size, bombs]: [number, number]) => {
@@ -63,6 +71,7 @@ const useGame = (): ReturnType => {
     settings: [size, bombs],
     playerField,
     gameField,
+    onContextMenu,
     onClick,
     onChangeLevel,
     onReset,
