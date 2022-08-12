@@ -7,7 +7,8 @@ import { GameArea, Wrapper, GameOver } from "@/components/Game";
 import useGame from "./useGame";
 
 export const GameWithHooks: FC = () => {
-  const { isGameOver, isWin, level, onChangeLevel, onClick, onReset, playerField, settings } = useGame();
+  const { isGameOver, isWin, level, onChangeLevel, onClick, onReset, onContextMenu, playerField, settings } =
+    useGame();
 
   const [, bombs] = settings;
 
@@ -28,7 +29,7 @@ export const GameWithHooks: FC = () => {
           onReset={onReset}
         />
         {isGameOver && <GameOver onClick={onReset} isWin={isWin} />}
-        <Grid onClick={onClick} onContextMenu={() => null}>
+        <Grid onClick={onClick} onContextMenu={onContextMenu}>
           {playerField}
         </Grid>
       </GameArea>

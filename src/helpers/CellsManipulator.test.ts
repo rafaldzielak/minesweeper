@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { incrementNeighbours, getNeigboursItems, checkItemInField, openCell } from "./CellsManipulator";
+import { incrementNeighbours, getNeigboursItems, checkItemInField } from "./CellsManipulator";
 import { CellState, Field } from "./Field";
 
 const { empty: e, bomb: b, hidden: h } = CellState;
@@ -136,117 +136,6 @@ describe("checkItemInField tests", () => {
 
     it("In x and y range", () => {
       expect(checkItemInField([3, 4], field)).toBe(true);
-    });
-  });
-});
-
-describe("Open cell action", () => {
-  describe("Simple cases with loose", () => {
-    it("Open cell with the bomb", () => {
-      expect(() =>
-        openCell(
-          [1, 1],
-          [
-            [h, h],
-            [h, h],
-          ],
-          [
-            [1, 1],
-            [1, b],
-          ]
-        )
-      ).toThrow("Game Over");
-    });
-  });
-  describe("Open cell with number", () => {
-    it("Open cell with state == 1", () => {
-      const playerField = openCell(
-        [1, 1],
-        [
-          [h, h, h],
-          [h, h, h],
-          [h, h, h],
-        ],
-        [
-          [1, 1, 0],
-          [9, 1, 0],
-          [1, 1, 0],
-        ]
-      );
-      expect(playerField).toStrictEqual([
-        [h, h, h],
-        [h, 1, h],
-        [h, h, h],
-      ]);
-    });
-    it("Open cell with state == 3", () => {
-      const playerField = openCell(
-        [1, 1],
-        [
-          [h, h, h],
-          [h, h, h],
-          [h, h, h],
-        ],
-        [
-          [9, 2, 0],
-          [9, 3, 0],
-          [9, 2, 0],
-        ]
-      );
-      expect(playerField).toStrictEqual([
-        [h, h, h],
-        [h, 3, h],
-        [h, h, h],
-      ]);
-    });
-  });
-  describe("Open empty cell", () => {
-    it("Open empty cell, simple 3*3 case", () => {
-      const playerField = openCell(
-        [1, 2],
-        [
-          [h, h, h],
-          [h, h, h],
-          [h, h, h],
-        ],
-        [
-          [1, 1, 0],
-          [9, 1, 0],
-          [1, 1, 0],
-        ]
-      );
-
-      expect(playerField).toStrictEqual([
-        [h, 1, 0],
-        [h, 1, 0],
-        [h, 1, 0],
-      ]);
-    });
-    it("Open empty cell 5*5 case", () => {
-      const playerField = openCell(
-        [2, 2],
-        [
-          [h, h, h, h, h],
-          [h, h, h, h, h],
-          [h, h, h, h, h],
-          [h, h, h, h, h],
-          [h, h, h, h, h],
-        ],
-        [
-          [9, 9, 1, 1, 2],
-          [9, 3, 1, 0, 0],
-          [1, 1, 0, 1, 1],
-          [1, 0, 0, 1, 9],
-          [2, 1, 0, 1, 0],
-        ]
-      );
-      expect(playerField).toStrictEqual([
-        [h, h, 1, 1, 2],
-        [h, 3, 1, 0, 0],
-        [1, 1, 0, 1, 1],
-        [1, 0, 0, 1, h],
-        [2, 1, 0, 1, h],
-      ]);
     });
   });
 });
