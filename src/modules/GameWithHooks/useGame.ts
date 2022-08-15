@@ -31,7 +31,11 @@ const useGame = (): ReturnType => {
 
   const onClick = (coords: Coords) => {
     try {
-      const newPlayerField = openCell(coords, playerField, gameField);
+      const [newPlayerField, isSolved, flagCounter] = openCell(coords, playerField, gameField);
+      if (isSolved) {
+        setIsWin(true);
+        setIsGameOver(true);
+      }
       setPlayerField([...newPlayerField]);
     } catch (error) {
       setPlayerField([...gameField]);
@@ -41,8 +45,11 @@ const useGame = (): ReturnType => {
   };
 
   const onContextMenu = (coords: Coords) => {
-    console.log("CONTEXT MMENU");
-    const newPlayerField = setFlag(coords, playerField, gameField);
+    const [newPlayerField, isSolved, flagCounter] = setFlag(coords, playerField, gameField);
+    if (isSolved) {
+      setIsWin(true);
+      setIsGameOver(true);
+    }
     setPlayerField([...newPlayerField]);
   };
 

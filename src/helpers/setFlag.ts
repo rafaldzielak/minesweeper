@@ -1,13 +1,7 @@
+import { detectSolvedPuzzle } from "./detectSolvedPuzzle";
 import { CellState, Coords, Field } from "./Field";
 
-/**
- * Set flag to the cell
- * @param {Coords} coords
- * @param {Field} playerField
- * @param {Field} gameField
- * @returns {[Field, FlagCounter]}
- */
-export const setFlag = (coords: Coords, playerField: Field, gameField: Field): Field => {
+export const setFlag = (coords: Coords, playerField: Field, gameField: Field): [Field, boolean, number] => {
   const [y, x] = coords;
   const cell = playerField[y][x];
 
@@ -25,5 +19,7 @@ export const setFlag = (coords: Coords, playerField: Field, gameField: Field): F
       break;
   }
 
-  return playerField;
+  const [isSolved, flagCounter] = detectSolvedPuzzle(playerField, gameField);
+
+  return [playerField, isSolved, flagCounter];
 };
