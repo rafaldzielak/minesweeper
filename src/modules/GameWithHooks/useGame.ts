@@ -29,27 +29,27 @@ const useGame = (): ReturnType => {
   const [playerField, setPlayerField] = useState<Field>(emptyFieldGenerator(size, CellState.hidden));
   const [gameField, setGameField] = useState<Field>(fieldGenerator(size, bombs / (size * size)));
 
+  const setGameOver = (isSolved = false) => {
+    setIsGameOver(true);
+    setIsWin(isSolved);
+  };
+
   const onClick = (coords: Coords) => {
     try {
       const [newPlayerField, isSolved, flagCounter] = openCell(coords, playerField, gameField);
-      if (isSolved) {
-        setIsWin(true);
-        setIsGameOver(true);
-      }
+      if (isSolved) setGameOver(isSolved);
+
       setPlayerField([...newPlayerField]);
     } catch (error) {
       setPlayerField([...gameField]);
-      setIsGameOver(true);
+      setGameOver();
       setIsWin(false);
     }
   };
 
   const onContextMenu = (coords: Coords) => {
     const [newPlayerField, isSolved, flagCounter] = setFlag(coords, playerField, gameField);
-    if (isSolved) {
-      setIsWin(true);
-      setIsGameOver(true);
-    }
+    if (isSolved) setGameOver(isSolved);
     setPlayerField([...newPlayerField]);
   };
 

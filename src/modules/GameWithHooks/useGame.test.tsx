@@ -30,4 +30,21 @@ describe("useGame test cases", () => {
 
     expect(flatWithFilter(gameField, b)).toHaveLength(10);
   });
+
+  it("Player win the game", () => {
+    const { result } = renderHook(useGame);
+    const { gameField, onClick, onContextMenu } = result.current;
+
+    for (const y of gameField.keys()) {
+      for (const x of gameField[y].keys()) {
+        const gameCell = gameField[y][x];
+        act(() => (gameCell !== b ? onClick([y, x]) : onContextMenu([y, x])));
+      }
+    }
+
+    const { isGameOver, isWin } = result.current;
+
+    expect(isWin).toBe(true);
+    expect(isGameOver).toBe(true);
+  });
 });
