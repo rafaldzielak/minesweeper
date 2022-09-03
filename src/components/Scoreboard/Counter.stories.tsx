@@ -12,5 +12,5 @@ const Template: Story<CounterProps> = (args) => <Counter {...args} />;
 
 export const CounterExample = Template.bind({});
 CounterExample.args = {
-  children: "010",
+  children: 10,
 };
