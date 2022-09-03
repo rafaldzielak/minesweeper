@@ -9,7 +9,7 @@ export interface ScoreboardProps {
   /**
    * Timer
    */
-  time: string;
+  time: number;
   /**
    * Possible game scenarios
    */

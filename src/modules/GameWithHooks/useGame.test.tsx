@@ -27,7 +27,6 @@ describe("useGame test cases", () => {
     act(onReset);
 
     const { gameField } = result.current;
-
     expect(flatWithFilter(gameField, b)).toHaveLength(10);
   });
 
