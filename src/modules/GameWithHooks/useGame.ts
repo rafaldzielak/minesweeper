@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Field, CellState, emptyFieldGenerator, fieldGenerator, Coords } from "@/helpers/Field";
 import { openCell } from "@/helpers/openCell";
@@ -13,6 +13,7 @@ type ReturnType = {
   settings: [number, number];
   playerField: Field;
   gameField: Field;
+  time: number;
   onClick: (coords: Coords) => void;
   onContextMenu: (coords: Coords) => void;
   onChangeLevel: (level: LevelNames) => void;
@@ -23,11 +24,20 @@ const useGame = (): ReturnType => {
   const [level, setLevel] = useState<LevelNames>("beginner");
   const [isGameOver, setIsGameOver] = useState(false);
   const [isWin, setIsWin] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [time, setTime] = useState(0);
 
   const [size, bombs] = GameSettings[level];
 
   const [playerField, setPlayerField] = useState<Field>(emptyFieldGenerator(size, CellState.hidden));
   const [gameField, setGameField] = useState<Field>(fieldGenerator(size, bombs / (size * size)));
+
+  useEffect(() => {
+    if (!isGameStarted) return;
+    let interval = setInterval(() => setTime((time) => time + 1), 1000);
+    if (isGameOver) clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [isGameStarted, isGameOver, setTime]);
 
   const setGameOver = (isSolved = false) => {
     setIsGameOver(true);
@@ -35,6 +45,7 @@ const useGame = (): ReturnType => {
   };
 
   const onClick = (coords: Coords) => {
+    if (!isGameStarted) setIsGameStarted(true);
     try {
       const [newPlayerField, isSolved, flagCounter] = openCell(coords, playerField, gameField);
       if (isSolved) setGameOver(isSolved);
@@ -48,6 +59,7 @@ const useGame = (): ReturnType => {
   };
 
   const onContextMenu = (coords: Coords) => {
+    if (!isGameStarted) setIsGameStarted(true);
     const [newPlayerField, isSolved, flagCounter] = setFlag(coords, playerField, gameField);
     if (isSolved) setGameOver(isSolved);
     setPlayerField([...newPlayerField]);
@@ -56,6 +68,7 @@ const useGame = (): ReturnType => {
   const resetHandler = ([size, bombs]: [number, number]) => {
     const newGameField = fieldGenerator(size, bombs / (size * size));
     const newPlayerField = emptyFieldGenerator(size, CellState.hidden);
+    setTime(0);
 
     setGameField(newGameField);
     setPlayerField(newPlayerField);
@@ -72,6 +85,7 @@ const useGame = (): ReturnType => {
   const onReset = () => resetHandler([size, bombs]);
 
   return {
+    time,
     level,
     isGameOver,
     isWin,
