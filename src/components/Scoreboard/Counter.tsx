@@ -5,7 +5,7 @@ export interface CounterProps {
   /**
    * Number in the counter
    */
-  children: string;
+  children: number;
 }
 
 export const Counter: FC<CounterProps> = ({ children }) => <Frame>{children}</Frame>;

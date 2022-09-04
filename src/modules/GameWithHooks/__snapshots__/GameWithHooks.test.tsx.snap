@@ -42,9 +42,7 @@ exports[`GameWithHooks test cases > Render game field by default 1`] = `
       >
         <div
           class="css-d2q1pa"
-        >
-          0
-        </div>
+        />
         <div>
           <select
             class="css-14j5jmv"

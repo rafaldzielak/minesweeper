@@ -9,7 +9,7 @@ export interface ScoreboardProps {
   /**
    * Timer
    */
-  time: string;
+  time: number;
   /**
    * Possible game scenarios
    */
@@ -21,7 +21,7 @@ export interface ScoreboardProps {
   /**
    * Bombs in the field
    */
-  bombs: string;
+  bombs: number;
   onChangeLevel: (event: ChangeEvent<HTMLSelectElement>) => void;
   defaultLevel?: string;
 }

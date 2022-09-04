@@ -12,8 +12,8 @@ const Template: Story<ScoreboardProps> = (args) => <Scoreboard {...args} />;
 
 export const ScoreboardExample = Template.bind({});
 ScoreboardExample.args = {
-  time: "000",
+  time: 0,
   levels: ["beginner", "intermediate", "expert"],
-  bombs: "010",
+  bombs: 10,
   defaultLevel: "intermediate",
 };

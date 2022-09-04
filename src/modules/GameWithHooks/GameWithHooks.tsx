@@ -7,8 +7,18 @@ import { GameArea, Wrapper, GameOver } from "@/components/Game";
 import useGame from "./useGame";
 
 export const GameWithHooks: FC = () => {
-  const { isGameOver, isWin, level, onChangeLevel, onClick, onReset, onContextMenu, playerField, settings } =
-    useGame();
+  const {
+    isGameOver,
+    isWin,
+    level,
+    onChangeLevel,
+    onClick,
+    onReset,
+    onContextMenu,
+    playerField,
+    settings,
+    time,
+  } = useGame();
 
   const [, bombs] = settings;
 
@@ -19,8 +29,8 @@ export const GameWithHooks: FC = () => {
       </Top>
       <GameArea>
         <Scoreboard
-          time='0'
-          bombs={String(bombs)}
+          time={time}
+          bombs={bombs}
           levels={GameLevels as unknown as string[]}
           defaultLevel={level}
           onChangeLevel={({ target: { value: level } }: React.ChangeEvent<HTMLSelectElement>) =>
