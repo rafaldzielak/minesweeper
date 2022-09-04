@@ -89,4 +89,20 @@ describe("Scoreboard behavior - timer and bomb counter", () => {
     act(result.current.onReset);
     expect(result.current.time).toBe(0);
   });
+
+  it("flagCounter counter increase when onContextMenu calls", () => {
+    const { result } = renderHook(useGame);
+    act(() => result.current.onContextMenu([0, 0]));
+    expect(result.current.flagCounter).toBe(1);
+  });
+
+  it("flagCounter counter should stop when flagCounter > bombs", () => {
+    const { result } = renderHook(useGame);
+    expect(result.current.time).toBe(0);
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 4; x++) act(() => result.current.onContextMenu([y, x]));
+    }
+
+    expect(result.current.flagCounter).toBe(10);
+  });
 });
