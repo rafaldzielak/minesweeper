@@ -14,6 +14,7 @@ type ReturnType = {
   playerField: Field;
   gameField: Field;
   time: number;
+  flagCounter: number;
   onClick: (coords: Coords) => void;
   onContextMenu: (coords: Coords) => void;
   onChangeLevel: (level: LevelNames) => void;
@@ -26,6 +27,7 @@ const useGame = (): ReturnType => {
   const [isWin, setIsWin] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [time, setTime] = useState(0);
+  const [flagCounter, setFlagCounter] = useState(0);
 
   const [size, bombs] = GameSettings[level];
 
@@ -47,7 +49,7 @@ const useGame = (): ReturnType => {
   const onClick = (coords: Coords) => {
     if (!isGameStarted) setIsGameStarted(true);
     try {
-      const [newPlayerField, isSolved, flagCounter] = openCell(coords, playerField, gameField);
+      const [newPlayerField, isSolved] = openCell(coords, playerField, gameField);
       if (isSolved) setGameOver(isSolved);
 
       setPlayerField([...newPlayerField]);
@@ -60,7 +62,14 @@ const useGame = (): ReturnType => {
 
   const onContextMenu = (coords: Coords) => {
     if (!isGameStarted) setIsGameStarted(true);
-    const [newPlayerField, isSolved, flagCounter] = setFlag(coords, playerField, gameField);
+    const [newPlayerField, isSolved, newFlagCounter] = setFlag(
+      coords,
+      playerField,
+      gameField,
+      flagCounter,
+      bombs
+    );
+    setFlagCounter(newFlagCounter);
     if (isSolved) setGameOver(isSolved);
     setPlayerField([...newPlayerField]);
   };
@@ -92,6 +101,7 @@ const useGame = (): ReturnType => {
     settings: [size, bombs],
     playerField,
     gameField,
+    flagCounter,
     onContextMenu,
     onClick,
     onChangeLevel,

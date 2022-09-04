@@ -18,6 +18,7 @@ export const GameWithHooks: FC = () => {
     playerField,
     settings,
     time,
+    flagCounter,
   } = useGame();
 
   const [, bombs] = settings;
@@ -30,7 +31,7 @@ export const GameWithHooks: FC = () => {
       <GameArea>
         <Scoreboard
           time={time}
-          bombs={bombs}
+          bombs={bombs - flagCounter}
           levels={GameLevels as unknown as string[]}
           defaultLevel={level}
           onChangeLevel={({ target: { value: level } }: React.ChangeEvent<HTMLSelectElement>) =>
