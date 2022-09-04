@@ -116,7 +116,7 @@ describe("Open cell action", () => {
 
   describe("Detect win state", () => {
     it("5*5 solved case", () => {
-      const [playerField, isSolved, flagCounter] = openCell(
+      const [playerField, isSolved] = openCell(
         [4, 0],
         [
           [f, f, 1, 1, 2],
@@ -134,7 +134,6 @@ describe("Open cell action", () => {
         ]
       );
 
-      expect(flagCounter).toBe(4);
       expect(isSolved).toStrictEqual(true);
       expect(playerField).toStrictEqual([
         [f, f, 1, 1, 2],

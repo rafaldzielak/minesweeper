@@ -6,16 +6,17 @@ export const detectSolvedPuzzle = (playerField: Field, gameField: Field): [boole
   let bombsCounter = 0;
   let flagCounter = 0;
   let detectedBombsCounter = 0;
-  let hiddenCounter = 0;
+  let doesFieldHaveHiddenCells = false;
 
   for (const y of gameField.keys()) {
     for (const x of gameField[y].keys()) {
       const gameCell = gameField[y][x];
       const playerCell = playerField[y][x];
+      const isPlayerCellFlag = [flag, weakFlag].includes(playerCell);
 
-      if (playerCell === hidden) hiddenCounter++;
+      if (playerCell === hidden) doesFieldHaveHiddenCells = true;
 
-      if ([flag, weakFlag].includes(playerCell)) flagCounter++;
+      if (isPlayerCellFlag) flagCounter++;
 
       if (gameCell === bomb) {
         bombsCounter++;
@@ -24,7 +25,8 @@ export const detectSolvedPuzzle = (playerField: Field, gameField: Field): [boole
     }
   }
 
-  const isPuzzleSolved = bombsCounter === detectedBombsCounter && hiddenCounter === 0;
+  const isPuzzleSolved =
+    bombsCounter === detectedBombsCounter && flagCounter === bombsCounter && !doesFieldHaveHiddenCells;
 
   return [isPuzzleSolved, flagCounter];
 };

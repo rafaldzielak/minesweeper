@@ -10,6 +10,7 @@ type ReturnType = {
   level: LevelNames;
   isGameOver: boolean;
   isWin: boolean;
+  isGameStarted: boolean;
   settings: [number, number];
   playerField: Field;
   gameField: Field;
@@ -79,6 +80,7 @@ const useGame = (): ReturnType => {
     const newPlayerField = emptyFieldGenerator(size, CellState.hidden);
     setTime(0);
 
+    setIsGameStarted(false);
     setGameField(newGameField);
     setPlayerField(newPlayerField);
     setIsGameOver(false);
@@ -102,6 +104,7 @@ const useGame = (): ReturnType => {
     playerField,
     gameField,
     flagCounter,
+    isGameStarted,
     onContextMenu,
     onClick,
     onChangeLevel,
