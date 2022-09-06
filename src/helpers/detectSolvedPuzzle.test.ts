@@ -43,6 +43,44 @@ describe("Detect solved puzzle function test cases", () => {
     expect(isSolved).toBe(false);
   });
 
+  it("Loose 3*3 case", () => {
+    const gameField: Field = [
+      [1, 1, e],
+      [b, 1, e],
+      [1, 1, e],
+    ];
+
+    const playerField: Field = [
+      [1, 1, e],
+      [b, 1, e],
+      [1, 1, e],
+    ];
+
+    const [isSolved, flagCounter] = detectSolvedPuzzle(playerField, gameField);
+
+    expect(flagCounter).toBe(0);
+    expect(isSolved).toBe(false);
+  });
+
+  it("Wrong flag on 3*3 case", () => {
+    const gameField: Field = [
+      [1, 1, e],
+      [b, 1, e],
+      [1, 1, e],
+    ];
+
+    const playerField: Field = [
+      [1, f, e],
+      [b, 1, e],
+      [1, 1, e],
+    ];
+
+    const [isSolved, flagCounter] = detectSolvedPuzzle(playerField, gameField);
+
+    expect(flagCounter).toBe(1);
+    expect(isSolved).toBe(false);
+  });
+
   it("Wrong 3*3 hidden cell case", () => {
     const gameField: Field = [
       [1, 1, e],
