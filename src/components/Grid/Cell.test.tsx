@@ -1,20 +1,19 @@
 import React from "react";
 import { render, screen, fireEvent, createEvent } from "@testing-library/react";
 import { CellState, Coords } from "@/helpers/Field";
-import { Cell, checkCellIsActive as isActiveCell } from "./Cell";
+import { Cell, checkCellIsActive as isActiveCell, areEqual, CellProps } from "./Cell";
 import { describe, expect, it, vi } from "vitest";
 
 describe("Cell component check", () => {
   const coords: Coords = [1, 1];
+  const props = {
+    coords,
+    onClick: vi.fn(),
+    onContextMenu: vi.fn(),
+  };
 
   for (let cell = CellState.empty; cell <= CellState.weakFlag; cell++) {
     it("Check prevent default contextMenu for every type of cell", () => {
-      const props = {
-        coords,
-        onClick: vi.fn(),
-        onContextMenu: vi.fn(),
-      };
-
       render(<Cell {...props}>{cell}</Cell>);
 
       const cellComp = screen.getByTestId(`${cell}_${coords}`);
@@ -26,12 +25,6 @@ describe("Cell component check", () => {
     });
 
     it("onClick and onContextMenu handler should be called for active cells", () => {
-      const props = {
-        coords,
-        onClick: vi.fn(),
-        onContextMenu: vi.fn(),
-      };
-
       render(<Cell {...props}>{cell}</Cell>);
 
       const cellComp = screen.getByTestId(`${cell}_${coords}`);
@@ -48,4 +41,18 @@ describe("Cell component check", () => {
       }
     });
   }
+
+  it("Check areEqual", () => {
+    const prevProps = { ...props, children: 0 } as CellProps;
+
+    expect(areEqual(prevProps, { ...prevProps })).toBe(true);
+
+    expect(areEqual(prevProps, { ...prevProps, coords: [1, 2] })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, coords: [2, 1] })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, coords: [2, 2] })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, coords: [1, 0] })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, onClick: vi.fn() })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, onContextMenu: vi.fn() })).toBe(false);
+    expect(areEqual(prevProps, { ...prevProps, children: 1 })).toBe(false);
+  });
 });
