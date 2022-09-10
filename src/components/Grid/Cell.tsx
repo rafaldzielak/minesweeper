@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 
 import { Cell as CellType, CellState, Coords } from "@/helpers/Field";
 import { useMouseDown } from "@/hooks/useMouseDown";
@@ -14,7 +14,18 @@ export type CellProps = {
 export const checkCellIsActive = (cell: CellType): boolean =>
   [CellState.hidden, CellState.flag, CellState.weakFlag].includes(cell);
 
-export const Cell: FC<CellProps> = ({ children, coords, ...rest }) => {
+export const areEqual = (prevProps: CellProps, nextProps: CellProps): boolean => {
+  const areEqualCoords =
+    prevProps.coords.filter((coord, idx) => nextProps.coords[idx] !== coord).length === 0;
+  return (
+    prevProps.children === nextProps.children &&
+    areEqualCoords &&
+    prevProps.onClick === nextProps.onClick &&
+    prevProps.onContextMenu === nextProps.onContextMenu
+  );
+};
+
+export const Cell: FC<CellProps> = memo(({ children, coords, ...rest }) => {
   const [mouseDown, onMouseDown, onMouseUp] = useMouseDown();
   const onClick = () => rest.onClick(coords);
 
@@ -35,7 +46,7 @@ export const Cell: FC<CellProps> = ({ children, coords, ...rest }) => {
   };
 
   return <ComponentsMap {...props}>{children}</ComponentsMap>;
-};
+}, areEqual);
 
 type ComponentsMapProps = {
   children: CellType;
