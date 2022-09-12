@@ -1,6 +1,5 @@
 import React, { FC, useCallback } from "react";
 import { GameLevels, LevelNames } from "@/modules/GameSettings";
-import { Top } from "@/components/Top/Top";
 import { Scoreboard } from "@/components/Scoreboard";
 import { Grid } from "@/components/Grid/Grid";
 import { GameArea, Wrapper, GameOver } from "@/components/Game";
@@ -30,10 +29,7 @@ export const GameWithHooks: FC = () => {
   );
 
   return (
-    <Wrapper>
-      <Top feature='Flag' firstAction='right click'>
-        Minesweeper
-      </Top>
+    <>
       <GameArea>
         <Scoreboard
           time={time}
@@ -48,6 +44,6 @@ export const GameWithHooks: FC = () => {
           {playerField}
         </Grid>
       </GameArea>
-    </Wrapper>
+    </>
   );
 };

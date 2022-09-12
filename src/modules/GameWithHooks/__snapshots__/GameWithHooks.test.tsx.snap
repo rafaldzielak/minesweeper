@@ -225,3 +225,83 @@ exports[`GameWithHooks test cases > Render game field by default 2`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`GameWithHooks test cases > Render game field by default 3`] = `
+<DocumentFragment>
+  <div
+    class="css-1bh93n8"
+  >
+    <div
+      class="css-1gexv9m"
+    >
+      <div
+        class="css-d2q1pa"
+      />
+      <div>
+        <select
+          class="css-14j5jmv"
+        >
+          <option
+            class="css-zcmdxr"
+            value="beginner"
+          >
+            beginner
+          </option>
+          <option
+            class="css-zcmdxr"
+            value="intermediate"
+          >
+            intermediate
+          </option>
+          <option
+            class="css-zcmdxr"
+            value="expert"
+          >
+            expert
+          </option>
+        </select>
+        <button
+          class="css-1bva717"
+        >
+          🙂
+        </button>
+      </div>
+      <div
+        class="css-d2q1pa"
+      >
+        NaN
+      </div>
+    </div>
+    <div
+      class="css-1p4hvro"
+    >
+      🙁
+    </div>
+    <div
+      class="css-da0epy"
+      size="2"
+    >
+      <div
+        class="css-1tt7j02"
+        data-testid="10_0,0"
+        role="cell"
+      />
+      <div
+        class="css-1tt7j02"
+        data-testid="10_0,1"
+        role="cell"
+      />
+      <div
+        class="css-1tt7j02"
+        data-testid="10_1,0"
+        role="cell"
+      />
+      <div
+        class="css-1tt7j02"
+        data-testid="10_1,1"
+        role="cell"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
