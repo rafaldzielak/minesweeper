@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import { MinesweeperWithHooks } from "./pages/MineSweeperWithHooks";
 
@@ -18,7 +18,9 @@ function App() {
           </ul>
         </nav>
         <Routes>
+          <Route path='/game-with-hooks/:username' element={<MinesweeperWithHooks />} />
           <Route path='/game-with-hooks' element={<MinesweeperWithHooks />} />
+          <Route path='*' element={<Navigate replace to='/' />}></Route>
           <Route path='/' element={<Home />} />
         </Routes>
       </Router>
