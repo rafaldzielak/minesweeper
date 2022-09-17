@@ -34,3 +34,6 @@ export const fieldGenerator = (size: number, probability: number): Field => {
 
   return result;
 };
+
+export const generateFieldWithDefaultState = (size: number, state: Cell = CellState.empty): Field =>
+  new Array(size).fill(null).map(() => new Array(size).fill(state));
