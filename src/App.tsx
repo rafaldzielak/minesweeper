@@ -2,7 +2,7 @@ import { FC } from "react";
 import { BrowserRouter as Router, Link, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import { MinesweeperWithHooks } from "./pages/MineSweeperWithHooks";
-import { MinesweeperWithRedux } from "./pages/MineSweeperWithRedux";
+import { MinesweeperWithUseReducer } from "./pages/MineSweeperWithUseReducer";
 
 function App() {
   return (
@@ -17,14 +17,14 @@ function App() {
               <Link to='/game-with-hooks'>GameWithHooks</Link>
             </li>
             <li>
-              <Link to='/game-with-redux'>Game With Redux</Link>
+              <Link to='/game-with-use-reducer'>Game With Redux</Link>
             </li>
           </ul>
         </nav>
         <Routes>
           <Route path='/game-with-hooks/:username' element={<MinesweeperWithHooks />} />
           <Route path='/game-with-hooks' element={<MinesweeperWithHooks />} />
-          <Route path='/game-with-redux' element={<MinesweeperWithRedux />} />
+          <Route path='/game-with-use-reducer' element={<MinesweeperWithUseReducer />} />
           <Route path='*' element={<Navigate replace to='/' />}></Route>
           <Route path='/' element={<Home />} />
         </Routes>

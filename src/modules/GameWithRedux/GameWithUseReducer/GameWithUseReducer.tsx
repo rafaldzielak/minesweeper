@@ -2,11 +2,11 @@ import React, { FC, useReducer, useCallback } from "react";
 import { GameLevels, LevelNames } from "@/modules/GameSettings";
 import { Scoreboard } from "@/components/Scoreboard";
 import { Grid } from "@/components/Grid/Grid";
-import { GameArea, Wrapper, GameOver } from "@/components/Game";
-import { reducer, actions, getInitialState } from "./game";
+import { GameArea, GameOver } from "@/components/Game";
+import { reducer, actions, getInitialState } from "../game";
 import { Coords } from "@/helpers/Field";
 
-export const GameWithRedux: FC = () => {
+export const GameWithUseReducer: FC = () => {
   const [{ isGameOver, isWin, level, playerField, settings, time, flagCounter }, dispatch] = useReducer(
     reducer,
     getInitialState()
