@@ -3,9 +3,9 @@ import React, { FC } from "react";
 import { Top } from "@/components/Top/Top";
 import { GameLayout } from "@/components/Game";
 
-import { GameWithRedux } from "@/modules/GameWithRedux/GameWithRedux";
+import { GameWithUseReducer } from "@/modules/GameWithRedux/GameWithUseReducer/GameWithUseReducer";
 
-export const MinesweeperWithRedux: FC = () => {
+export const MinesweeperWithUseReducer: FC = () => {
   return (
     <GameLayout
       top={
@@ -13,7 +13,7 @@ export const MinesweeperWithRedux: FC = () => {
           Minesweeper with React+Redux and useReducer special for you
         </Top>
       }>
-      <GameWithRedux />
+      <GameWithUseReducer />
     </GameLayout>
   );
 };
