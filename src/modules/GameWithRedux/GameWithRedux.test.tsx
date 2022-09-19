@@ -23,7 +23,7 @@ describe("GameWithHooks test cases", () => {
 
   it("Context menu handler on a cell works fine", () => {
     const { asFragment } = render(<GameWithRedux />);
-    userEvent.click(screen.getByTestId("10_0,0"), { button: 2 });
+    userEvent.click(screen.getByTestId("10_0,0"));
     expect(asFragment()).toMatchSnapshot();
   });
 
