@@ -5,7 +5,8 @@ import { Coords } from "@/helpers/Field";
 import { RootState } from "@/store";
 import { Grid as GridComponent } from "@/components/Grid/Grid";
 
-import { actions } from "@/modules/GameWithRedux/game";
+import { actions, runTimer } from "@/modules/GameWithRedux/game";
+import type {} from "redux-thunk/extend-redux";
 
 export const Grid: FC = () => {
   const { playerField } = useSelector(({ game: { playerField } }: RootState) => ({
@@ -14,7 +15,10 @@ export const Grid: FC = () => {
 
   const dispatch = useDispatch();
 
-  const onClick = useCallback((coords: Coords) => dispatch(actions.openCell(coords)), []);
+  const onClick = useCallback((coords: Coords) => {
+    dispatch(actions.openCell(coords));
+    dispatch(runTimer());
+  }, []);
 
   const onContextMenu = useCallback((coords: Coords) => dispatch(actions.setFlag(coords)), []);
 

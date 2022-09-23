@@ -3,8 +3,8 @@ import { CellState, Field } from "@/helpers/Field";
 
 const { empty: e, hidden: h, bomb: b, flag: f, weakFlag: w } = CellState;
 
-import { reducer, actions, State } from "./game";
-import { describe, expect, it } from "vitest";
+import { reducer, actions, State, recursiveUpdate, runTimer } from "./game";
+import { describe, expect, it, vi } from "vitest";
 
 describe("Game reducer", () => {
   const level = "beginner";
@@ -176,6 +176,56 @@ describe("Game reducer", () => {
       );
       expect(nextState.gameField).toHaveLength(16);
       expect(nextState.playerField).toHaveLength(16);
+    });
+  });
+
+  describe("Check updateTime action", () => {
+    it("Update time from 0", () => {
+      expect(reducer(baseInitialState, actions.updateTime())).toEqual(
+        expect.objectContaining({
+          time: 1,
+        })
+      );
+    });
+    it("Update time from 10", () => {
+      expect(reducer({ ...baseInitialState, time: 10 }, actions.updateTime())).toEqual(
+        expect.objectContaining({
+          time: 11,
+        })
+      );
+    });
+  });
+
+  describe("Async actions check", () => {
+    it("Check action runTimer with state { isGameStarted: true, time: 0 }", () => {
+      const mockDispatch = vi.fn();
+      runTimer()(mockDispatch, () => ({ game: { isGameStarted: true, time: 0 } as State }), undefined);
+      expect(mockDispatch).toHaveBeenCalled();
+    });
+    it("Check action runTimer with state { isGameStarted: true, time: 1 }", () => {
+      const mockDispatch = vi.fn();
+      runTimer()(mockDispatch, () => ({ game: { isGameStarted: true, time: 1 } as State }), undefined);
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+    it("Check action runTimer with state { isGameStarted: false, time: 10 }", () => {
+      const mockDispatch = vi.fn();
+      runTimer()(mockDispatch, () => ({ game: { isGameStarted: false, time: 10 } as State }), undefined);
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
+    it("Check action recursiveUpdate with state { isGameStarted: true }", () => {
+      vi.useFakeTimers();
+      const mockDispatch = vi.fn();
+      recursiveUpdate()(mockDispatch, () => ({ game: { isGameStarted: true } as State }), undefined);
+      vi.advanceTimersByTime(1000);
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+    });
+    it("Check action recursiveUpdate with state { isGameStarted: false }", () => {
+      vi.useFakeTimers();
+      const mockDispatch = vi.fn();
+      recursiveUpdate()(mockDispatch, () => ({ game: { isGameStarted: false } as State }), undefined);
+      vi.advanceTimersByTime(1000);
+      expect(mockDispatch).not.toHaveBeenCalled();
     });
   });
 });
